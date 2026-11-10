@@ -1,10 +1,20 @@
-// Configuration Astro : domaine du site + génération automatique du sitemap (FR/EN avec hreflang).
+
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://pynav.fr', // doit rester identique à src/config/site.ts
+  site: 'https://danmatitia.github.io',
+  base: '/Pynav',
+  trailingSlash: 'always',
   integrations: [
-    sitemap({ i18n: { defaultLocale: 'fr', locales: { fr: 'fr-FR', en: 'en-US' } } }),
-  ],
+    sitemap({
+      i18n: {
+        defaultLocale: 'fr',
+        locales: {
+          fr: 'fr-FR',
+          en: 'en-US'
+        }
+      }
+    })
+  ]
 });
