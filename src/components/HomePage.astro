@@ -4,6 +4,8 @@ import { Picture } from 'astro:assets';
 import dashboard from '../assets/app-store/dashboard.webp';
 import autopilot from '../assets/app-store/autopilot.webp';
 import wind from '../assets/app-store/wind.webp';
+import cockpit from '../assets/marine/cockpit.webp';
+import sailing from '../assets/marine/sailing.webp';
 import { pathFor } from '../config/paths';
 import { sections, sectionPath } from '../config/editorial';
 import { site } from '../config/site';
@@ -13,6 +15,10 @@ import FeatureCard from './FeatureCard.astro';
 import { getText } from '../i18n';
 const { lang } = Astro.props;
 const t = getText(lang);
+const fr = lang === 'fr';
+const resourceDescriptions = fr
+  ? ['Connectez pypilot et affichez vos instruments sur iPhone.', 'Vérifiez le format de sortie de votre passerelle NMEA.', 'Comparez les protocoles et trouvez des conseils pour votre réseau de bord.']
+  : ['Connect pypilot and display your instruments on iPhone.', 'Check which data format your NMEA gateway sends.', 'Compare protocols and get tips for your onboard network.'];
 const home = new URL(pathFor(), Astro.site).href;
 const organization = { '@type': 'Organization', '@id': `${home}#organization`, name: site.name, url: home };
 const structuredData = [
@@ -36,9 +42,12 @@ const structuredData = [
         <p>{t.hero.subtitle}</p>
         <DownloadButtons lang={lang} />
       </div>
-      <Picture src={dashboard} formats={['avif', 'webp']} widths={[240, 360, 560]}
-        sizes="(max-width: 400px) 70vw, 280px" loading="eager" fetchpriority="high"
-        alt={lang === 'fr' ? 'Tableau de bord PyNav sur iPhone avec cadrans de navigation' : 'PyNav dashboard on iPhone with marine navigation gauges'} />
+      <figure class="hero-product">
+        <Picture src={autopilot} formats={['avif', 'webp']} widths={[240, 360, 560]}
+          sizes="(max-width: 430px) 70vw, 300px" loading="eager" fetchpriority="high"
+          alt={fr ? 'Écran PyNav de commande du pilote automatique pypilot' : 'PyNav screen with pypilot autopilot controls'} />
+        <figcaption>{fr ? 'Commande pypilot sur iPhone' : 'pypilot controls on iPhone'}</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -49,12 +58,6 @@ const structuredData = [
       <div class="grid grid--2">{t.usages.items.map((i) => <FeatureCard title={i.title} text={i.text} />)}</div>
     </div>
   </section>
-
-  <nav class="container section" aria-label={lang === 'fr' ? 'Ressources PyNav' : 'PyNav resources'}>
-    <ul>{(['docs', 'compatibility', 'blog'] as const).map((section) =>
-      <li><a href={pathFor(sectionPath(lang, section))}>{sections[lang as 'fr' | 'en'][section][1]}</a></li>
-    )}</ul>
-  </nav>
 
   <!-- SECTION FONCTIONNALITÉS -->
   <section class="section" id="fonctionnalites">
@@ -69,10 +72,10 @@ const structuredData = [
       <h2>{lang === 'fr' ? 'PyNav en images' : 'See PyNav in action'}</h2>
       <div class="app-screenshots">
         <figure>
-          <Picture src={autopilot} formats={['avif', 'webp']} widths={[240, 360, 560]}
+          <Picture src={dashboard} formats={['avif', 'webp']} widths={[240, 360, 560]}
             sizes="(max-width: 400px) 70vw, 280px"
-            alt={lang === 'fr' ? 'Écran PyNav de commande du pilote automatique pypilot' : 'PyNav screen with pypilot autopilot controls'} />
-          <figcaption>{lang === 'fr' ? 'Commande pypilot' : 'pypilot controls'}</figcaption>
+            alt={fr ? 'Tableau de bord PyNav avec cadrans de navigation' : 'PyNav dashboard with marine navigation gauges'} />
+          <figcaption>{fr ? 'Tableau de bord NMEA' : 'NMEA dashboard'}</figcaption>
         </figure>
         <figure>
           <Picture src={wind} formats={['avif', 'webp']} widths={[240, 360, 560]}
@@ -94,6 +97,20 @@ const structuredData = [
     </div>
   </section>
 
+  <nav class="container resource-section" aria-labelledby="resources">
+    <h2 id="resources">{fr ? 'Préparez votre installation' : 'Set up your boat'}</h2>
+    <ul class="resource-grid">
+      {(['docs', 'compatibility', 'blog'] as const).map((section, index) => (
+        <li>
+          <a class="resource-card" href={pathFor(sectionPath(lang, section))}>
+            <span class="resource-card__title">{sections[lang as 'fr' | 'en'][section][1]} <span aria-hidden="true">↗</span></span>
+            <span>{resourceDescriptions[index]}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
   <!-- SECTION GRATUIT / PRO (aucun prix affiché tant qu'il n'est pas vérifié) -->
   <section class="section" id="tarifs">
     <div class="container">
@@ -112,6 +129,15 @@ const structuredData = [
       <h2>{t.faq.title}</h2>
       {t.faq.items.map((i) => <details><summary>{i.q}</summary><p>{i.a}</p></details>)}
     </div>
+  </section>
+
+  <section class="container sailing-photos" aria-label={fr ? 'En mer' : 'On the water'}>
+    <Picture src={cockpit} formats={['avif', 'webp']} widths={[360, 720, 1080]}
+      sizes="(max-width: 740px) 95vw, 48vw"
+      alt={fr ? 'Vue depuis le cockpit d’un voilier sur une mer turquoise' : 'View from a sailboat cockpit over turquoise water'} />
+    <Picture src={sailing} formats={['avif', 'webp']} widths={[360, 720, 1080]}
+      sizes="(max-width: 740px) 95vw, 48vw"
+      alt={fr ? 'Vue aérienne d’un voilier et de son sillage sur la mer bleue' : 'Aerial view of a sailboat and its wake on blue water'} />
   </section>
 
   <!-- SECTION APPEL FINAL -->
