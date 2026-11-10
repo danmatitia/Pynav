@@ -1,0 +1,84 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DownloadButtons from '../../components/DownloadButtons.astro';
+import { getEditorial, sections, sectionPath } from '../../config/editorial';
+import { pathFor } from '../../config/paths';
+import { languages } from '../../i18n';
+
+export async function getStaticPaths() {
+  const entries = await getEditorial();
+  const hubs = languages.flatMap(({ code }) => {
+    const names = ['docs', 'compatibility', 'blog'] as const;
+    return names.map((section) => ({
+      params: { lang: code, slug: sections[code][section][0] },
+      props: {
+        section, entry: null,
+        translations: { fr: sectionPath('fr', section), en: sectionPath('en', section) },
+        links: entries.filter((item) => item.section === section && item.entry.data.lang === code),
+      },
+    }));
+  });
+  return [...hubs, ...entries.map(({ section, entry, path }) => ({
+    params: { lang: entry.data.lang, slug: path.split('/').slice(1, -1).join('/') },
+    props: {
+      section, entry,
+      translations: Object.fromEntries(entries.filter((item) =>
+        item.section === section && item.entry.data.key === entry.data.key
+      ).map((item) => [item.entry.data.lang, item.path])),
+      links: entries.filter((item) => item.entry.data.lang === entry.data.lang && entry.data.related.includes(item.entry.data.key)),
+    },
+  }))];
+}
+
+const { section, entry, translations, links } = Astro.props;
+const lang = Astro.params.lang as 'fr' | 'en';
+const fr = lang === 'fr';
+const sectionTitle = sections[lang][section][1];
+const title = entry?.data.title ?? sectionTitle;
+const description = entry?.data.description ?? (fr
+  ? `${sectionTitle} PyNav pour utiliser pypilot et lire vos instruments NMEA.`
+  : `PyNav ${sectionTitle.toLowerCase()} for pypilot and NMEA instruments.`);
+const rendered = entry ? await render(entry) : null;
+const Content = rendered?.Content;
+const absolute = (path: string) => new URL(pathFor(path), Astro.site).href;
+const crumbs = [
+  { name: fr ? 'Accueil' : 'Home', path: `${lang}/` },
+  { name: sectionTitle, path: sectionPath(lang, section) },
+  ...(entry ? [{ name: title, path: translations[lang] }] : []),
+];
+const structuredData: Record<string, unknown>[] = [{
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map(({ name, path }, index) => ({
+    '@type': 'ListItem', position: index + 1, name, item: absolute(path),
+  })),
+}];
+if (entry?.data.steps) structuredData.push({
+  '@type': 'HowTo', name: title, description,
+  step: entry.data.steps.map(({ name, text }) => ({ '@type': 'HowToStep', name, text })),
+});
+---
+<BaseLayout {lang} title={`${title} | PyNav`} {description} {translations} {structuredData}>
+  <article class="section container">
+    <nav aria-label={fr ? 'Fil d’Ariane' : 'Breadcrumb'}>
+      {crumbs.map(({ name, path }, index) => index === crumbs.length - 1
+        ? <span aria-current="page">{name}</span>
+        : <><a href={pathFor(path)}>{name}</a> / </>)}
+    </nav>
+    <h1>{title}</h1>
+    <p>{description}</p>
+    {entry?.collection === 'compatibility' && <p><strong>{{
+      protocol: fr ? 'Périmètre protocolaire' : 'Protocol scope',
+      unverified: fr ? 'Compatibilité à vérifier' : 'Compatibility unverified',
+      tested: fr ? 'Configuration testée' : 'Tested setup',
+    }[entry.data.status]}</strong></p>}
+    {Content && <Content />}
+    {entry?.data.steps && <ol>{entry.data.steps.map(({ name, text }) =>
+      <li><strong>{name}</strong><p>{text}</p></li>)}</ol>}
+    {links.length > 0 && <section>
+      <h2>{fr ? 'À lire ensuite' : 'Read next'}</h2>
+      <ul>{links.map(({ entry, path }) => <li><a href={pathFor(path)}>{entry.data.title}</a></li>)}</ul>
+    </section>}
+    <DownloadButtons {lang} />
+  </article>
+</BaseLayout>

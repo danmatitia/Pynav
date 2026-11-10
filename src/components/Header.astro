@@ -3,25 +3,26 @@
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { getText } from '../i18n';
 
-const { lang } = Astro.props;
+import { pathFor } from '../config/paths';
+
+const { lang, translations } = Astro.props;
 const t = getText(lang);
 
-// Chemin de base pour GitHub Pages (/Pynav/)
-const base = import.meta.env.BASE_URL;
+const home = pathFor(`${lang}/`);
 
 const links = [
-  { href: `${base}${lang}/#usages`, label: t.nav.usages },
-  { href: `${base}${lang}/#fonctionnalites`, label: t.nav.features },
-  { href: `${base}${lang}/#compatibilite`, label: t.nav.compat },
-  { href: `${base}${lang}/#tarifs`, label: t.nav.pricing },
-  { href: `${base}${lang}/#faq`, label: t.nav.faq },
+  { href: `${home}#usages`, label: t.nav.usages },
+  { href: `${home}#fonctionnalites`, label: t.nav.features },
+  { href: `${home}#compatibilite`, label: t.nav.compat },
+  { href: `${home}#tarifs`, label: t.nav.pricing },
+  { href: pathFor(`${lang}/faq/`), label: t.nav.faq },
 ];
 ---
 
 <header class="header">
   <div class="container header__inner">
 
-    <a class="logo" href={`${base}${lang}/`}>
+    <a class="logo" href={home}>
       Py<span>Nav</span>
     </a>
 
@@ -32,7 +33,7 @@ const links = [
     </nav>
 
     <div class="nav">
-      <LanguageSwitcher lang={lang} />
+      <LanguageSwitcher {lang} {translations} />
 
       <details class="menu">
         <summary>{t.nav.menu}</summary>

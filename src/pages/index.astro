@@ -1,5 +1,4 @@
 ---
-return Astro.redirect(
-  `${import.meta.env.BASE_URL}fr/`
-);
+import { pathFor } from '../config/paths';
+return Astro.redirect(pathFor('fr/'), 301);
 ---

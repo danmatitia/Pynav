@@ -1,0 +1,35 @@
+---
+import { pathFor } from '../config/paths';
+import { languages } from '../i18n';
+const { lang, title, description, translations, structuredData = [], noindex = false } = Astro.props;
+const absolute = (path: string) => new URL(pathFor(path), Astro.site).href;
+const canonical = translations[lang] === undefined ? null : absolute(translations[lang]);
+const fallback = translations.fr ?? translations.en;
+const image = absolute('og.png');
+const imageAlt = lang === 'fr' ? 'PyNav, instruments marins sur mobile' : 'PyNav, marine instruments on mobile';
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': structuredData }).replace(/</g, '\\u003c');
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex" />}
+{canonical && <link rel="canonical" href={canonical} />}
+{languages.filter(({ code }) => translations[code] !== undefined).map(({ code }) =>
+  <link rel="alternate" hreflang={code} href={absolute(translations[code])} />
+)}
+{fallback !== undefined && <link rel="alternate" hreflang="x-default" href={absolute(fallback)} />}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="PyNav" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
+{canonical && <meta property="og:url" content={canonical} />}
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={imageAlt} />
+{structuredData.length > 0 && <script type="application/ld+json" set:html={json} />}

@@ -1,10 +1,25 @@
+
 ---
-// Sélecteur de langue : renvoie vers l'accueil de l'autre langue.
 import { languages, getText } from '../i18n';
-const { lang } = Astro.props;
+
+import { pathFor } from '../config/paths';
+
+const { lang, translations } = Astro.props;
 ---
-<div class="lang-switcher" role="group" aria-label={getText(lang).nav.langLabel}>
-  {languages.map((l) => (
-    <a href={`/${l.code}/`} hreflang={l.code} lang={l.code} aria-current={l.code === lang ? 'true' : undefined}>{l.code.toUpperCase()}</a>
+
+<div
+  class="lang-switcher"
+  role="group"
+  aria-label={getText(lang).nav.langLabel}
+>
+  {languages.map((language) => (
+    <a
+      href={pathFor(translations[language.code] ?? `${language.code}/`)}
+      hreflang={language.code}
+      lang={language.code}
+      aria-current={language.code === lang && translations[lang] !== undefined ? 'page' : undefined}
+    >
+      {language.code.toUpperCase()}
+    </a>
   ))}
 </div>

@@ -3,7 +3,6 @@
 // ============================================================
 export const site = {
   name: 'PyNav',
-  url: 'https://pynav.fr',
   defaultLang: 'fr',
   downloads: {
     appStore: 'https://apps.apple.com/fr/app/pynav/id6779253057',

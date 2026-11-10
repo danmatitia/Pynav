@@ -5,13 +5,13 @@ const en: typeof fr = {
   htmlLang: 'en',
   meta: {
     title: 'PyNav – Marine navigation app: NMEA dashboard and pypilot remote',
-    description: 'PyNav shows your NMEA boat instruments on iPhone, iPad and Android and controls your pypilot. Free app, Pro version with no subscription.',
+    description: 'PyNav shows your NMEA boat instruments on iPhone and iPad and controls your pypilot. Free app, Pro version with no subscription.',
   },
   nav: { usages: 'Use cases', features: 'Features', compat: 'Compatibility', pricing: 'Free and Pro', faq: 'FAQ', menu: 'Menu', main: 'Main navigation', skip: 'Skip to content', langLabel: 'Language' },
   buttons: { appStore: 'Download on the App Store', googlePlay: 'Get it on Google Play', googlePlaySoon: 'Coming soon on Google Play' },
   hero: {
     title: 'Your boat instruments and your pypilot, in your pocket.',
-    subtitle: 'PyNav is a marine navigation app: a customizable NMEA dashboard and a pypilot remote, on iPhone, iPad and Android.',
+    subtitle: 'PyNav is a marine navigation app: a customizable NMEA dashboard and a pypilot remote, on iPhone and iPad.',
     placeholder: 'Placeholder visual: app screenshot coming soon',
   },
   usages: {
@@ -34,7 +34,7 @@ const en: typeof fr = {
   },
   compat: {
     title: 'Compatibility and requirements',
-    text: 'PyNav connects to your setup over the network, through a suitable NMEA gateway or pypilot. It runs on iPhone, iPad and compatible Android devices.',
+    text: 'PyNav connects to your setup over the network, through a suitable NMEA gateway or pypilot. It is available to download for iPhone and iPad.',
     protocols: ['NMEA 0183', 'NMEA 2000 Raw', 'pypilot TCP'],
     limits: 'Compatibility depends on your hardware and network. PyNav is not guaranteed to work with every NMEA device.',
   },
@@ -49,7 +49,7 @@ const en: typeof fr = {
     items: [
       { q: 'Is PyNav free?', a: 'Yes, the app is free to download. A Pro version is available as an in-app purchase, with no subscription.' },
       { q: 'Do I need pypilot to use PyNav?', a: 'No. You can use PyNav as an NMEA dashboard without pypilot, or as a pypilot remote.' },
-      { q: 'Which devices does PyNav run on?', a: 'iPhone, iPad and compatible Android devices.' },
+      { q: 'Which devices does PyNav run on?', a: 'PyNav is available for iPhone and iPad on the App Store.' },
       { q: 'Does PyNav replace my navigation instruments?', a: 'No. PyNav does not replace mandatory navigation equipment. The skipper remains responsible for the safety of the boat and for keeping a proper lookout.' },
     ],
   },

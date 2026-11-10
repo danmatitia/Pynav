@@ -1,54 +1,27 @@
 ---
-// Squelette de toutes les pages : <head> SEO complet (canonical, hreflang, Open Graph, JSON-LD).
 import '../styles/variables.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../config/site';
+import SEO from '../components/SEO.astro';
+import { pathFor } from '../config/paths';
 import { getText } from '../i18n';
-const { lang, title, description, path = '' } = Astro.props; // path : ex. 'features/' (vide = accueil)
+
+const { lang, title, description, translations = { fr: 'fr/', en: 'en/' }, structuredData, noindex } = Astro.props;
 const t = getText(lang);
-const url = (l: string) => `${site.url}/${l}/${path}`;
-// Données structurées : uniquement des faits confirmés (pas de note, d'avis ni de prix).
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: site.name,
-  description,
-  operatingSystem: 'iOS, Android',
-  applicationCategory: 'NavigationApplication',
-  url: url(lang),
-  inLanguage: lang,
-};
 ---
 <!doctype html>
 <html lang={t.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={url(lang)} />
-    <link rel="alternate" hreflang="fr" href={url('fr')} />
-    <link rel="alternate" hreflang="en" href={url('en')} />
-    <link rel="alternate" hreflang="x-default" href={url(site.defaultLang)} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={site.name} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={url(lang)} />
-    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
-    <!-- À AJOUTER : image de partage 1200x630 dans public/images/ puis og:image + twitter:image -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <link rel="icon" type="image/svg+xml" href={pathFor('favicon.svg')} />
+    <SEO {lang} {title} {description} {translations} {structuredData} {noindex} />
   </head>
   <body>
     <a class="skip-link" href="#contenu">{t.nav.skip}</a>
-    <Header lang={lang} />
+    <Header {lang} {translations} />
     <main id="contenu"><slot /></main>
-    <Footer lang={lang} />
+    <Footer {lang} />
   </body>
 </html>

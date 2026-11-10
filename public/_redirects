@@ -1,0 +1,8 @@
+/ /fr/ 301
+/Pynav /fr/ 301
+/Pynav/ /fr/ 301
+/Pynav/fr /fr/ 301
+/Pynav/en /en/ 301
+/Pynav/fr/ /fr/ 301
+/Pynav/en/ /en/ 301
+/Pynav/* /:splat 301

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#101f36"/>
+  <path d="M0 490 Q150 420 300 490 T600 490 T900 490 T1200 490 V630 H0Z" fill="#172d48"/>
+  <text x="105" y="315" font-family="sans-serif" font-size="116" font-weight="700" fill="#fff">PyNav</text>
+  <text x="112" y="386" font-family="sans-serif" font-size="34" fill="#87e4ee">NMEA · pypilot</text>
+  <rect x="750" y="75" width="310" height="480" rx="48" fill="#0b1527" stroke="#87e4ee" stroke-width="5"/>
+  <circle cx="905" cy="254" r="99" fill="#172d48" stroke="#87e4ee" stroke-width="3"/>
+  <path d="M905 181 L940 304 L905 282 L870 304Z" fill="#87e4ee" transform="rotate(32 905 254)"/>
+  <path d="M805 411 H1005 M805 457 H960" stroke="#87e4ee" stroke-width="9" stroke-linecap="round" opacity=".55"/>
+</svg>

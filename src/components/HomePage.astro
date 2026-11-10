@@ -1,13 +1,30 @@
 ---
 // Contenu de l'accueil. Les phrases se modifient dans src/i18n/*.ts, pas ici.
+import { Picture } from 'astro:assets';
+import instruments from '../assets/instruments.png';
+import { pathFor } from '../config/paths';
+import { sections, sectionPath } from '../config/editorial';
+import { site } from '../config/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DownloadButtons from './DownloadButtons.astro';
 import FeatureCard from './FeatureCard.astro';
 import { getText } from '../i18n';
 const { lang } = Astro.props;
 const t = getText(lang);
+const home = new URL(pathFor(), Astro.site).href;
+const organization = { '@type': 'Organization', '@id': `${home}#organization`, name: site.name, url: home };
+const structuredData = [
+  organization,
+  {
+    '@type': 'SoftwareApplication', name: site.name, description: t.meta.description,
+    operatingSystem: site.downloads.googlePlay ? 'iOS, iPadOS, Android' : 'iOS, iPadOS',
+    applicationCategory: 'UtilitiesApplication', downloadUrl: site.downloads.appStore,
+    publisher: { '@id': organization['@id'] },
+  },
+
+];
 ---
-<BaseLayout lang={lang} title={t.meta.title} description={t.meta.description}>
+<BaseLayout lang={lang} title={t.meta.title} description={t.meta.description} {structuredData}>
 
   <!-- SECTION HERO -->
   <section class="hero">
@@ -17,8 +34,9 @@ const t = getText(lang);
         <p>{t.hero.subtitle}</p>
         <DownloadButtons lang={lang} />
       </div>
-      <!-- VISUEL PROVISOIRE : remplacez ce bloc par <img src="/images/screenshots/..." alt="..."> -->
-      <div class="phone-placeholder" role="img" aria-label={t.hero.placeholder}>{t.hero.placeholder}</div>
+      <Picture src={instruments} formats={['avif', 'webp']} widths={[480, 768, 1200]}
+        sizes="(max-width: 760px) 90vw, 45vw" loading="eager" fetchpriority="high"
+        alt={lang === 'fr' ? 'Illustration PyNav avec un cadran marin sur téléphone' : 'PyNav illustration with a marine instrument dial on a phone'} />
     </div>
   </section>
 
@@ -29,6 +47,12 @@ const t = getText(lang);
       <div class="grid grid--2">{t.usages.items.map((i) => <FeatureCard title={i.title} text={i.text} />)}</div>
     </div>
   </section>
+
+  <nav class="container section" aria-label={lang === 'fr' ? 'Ressources PyNav' : 'PyNav resources'}>
+    <ul>{(['docs', 'compatibility', 'blog'] as const).map((section) =>
+      <li><a href={pathFor(sectionPath(lang, section))}>{sections[lang as 'fr' | 'en'][section][1]}</a></li>
+    )}</ul>
+  </nav>
 
   <!-- SECTION FONCTIONNALITÉS -->
   <section class="section" id="fonctionnalites">

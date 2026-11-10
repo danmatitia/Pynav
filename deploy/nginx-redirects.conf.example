@@ -1,0 +1,11 @@
+# Include inside a server block for an old host you control.
+# Replace www.example.com. This cannot run on danmatitia.github.io.
+location ~ ^/Pynav/?$ {
+    return 301 https://www.example.com/fr/$is_args$args;
+}
+location ~ ^/Pynav/(fr|en)$ {
+    return 301 https://www.example.com/$1/$is_args$args;
+}
+location ~ ^/Pynav/(.+)$ {
+    return 301 https://www.example.com/$1$is_args$args;
+}

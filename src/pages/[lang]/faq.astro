@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DownloadButtons from '../../components/DownloadButtons.astro';
+import { getText, languages, type Lang } from '../../i18n';
+import { pathFor } from '../../config/paths';
+
+export function getStaticPaths() {
+  return languages.map(({ code }) => ({ params: { lang: code } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const fr = lang === 'fr';
+const t = getText(lang);
+const translations = { fr: 'fr/faq/', en: 'en/faq/' };
+const structuredData = [{
+  '@type': 'FAQPage',
+  mainEntity: t.faq.items.map(({ q, a }) => ({
+    '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}];
+---
+<BaseLayout {lang} title={fr ? 'FAQ PyNav · pypilot et NMEA' : 'PyNav FAQ · pypilot and NMEA'}
+  description={fr ? 'Réponses sur les appareils, pypilot, NMEA et la version Pro.' : 'Answers about devices, pypilot, NMEA and PyNav Pro.'}
+  {translations} {structuredData}>
+  <section class="section container faq">
+    <h1>{t.faq.title}</h1>
+    {t.faq.items.map(({ q, a }) => <details><summary>{q}</summary><p>{a}</p></details>)}
+    <p><a href={pathFor(fr ? 'fr/compatibilite/' : 'en/compatibility/')}>{t.nav.compat}</a></p>
+    <DownloadButtons {lang} />
+  </section>
+</BaseLayout>

@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pathFor } from '../config/paths';
+---
+<BaseLayout lang="fr" title="404 | PyNav" description="Page introuvable · Page not found" translations={{}} noindex>
+  <section class="section container">
+    <h1>Page introuvable</h1>
+    <p lang="en">Page not found.</p>
+    <a href={pathFor('fr/')}>Accueil</a> · <a href={pathFor('en/')} lang="en">Home</a>
+  </section>
+</BaseLayout>

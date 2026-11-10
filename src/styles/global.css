@@ -75,3 +75,10 @@ a { color: inherit; }
 }
 @media (min-width: 821px) and (max-width: 1020px) { .grid--3 { grid-template-columns: repeat(2, 1fr); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+
+.hero__grid picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}

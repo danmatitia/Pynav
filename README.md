@@ -1,34 +1,27 @@
-# Site officiel PyNav
+# PyNav
 
-Site statique bilingue (français / anglais) construit avec [Astro](https://astro.build). Domaine prévu : https://pynav.fr
+Site Astro bilingue pour la télécommande pypilot et les instruments NMEA. Le [dossier SEO](docs/SEO_ACQUISITION.md) décrit les pages, le calendrier éditorial et les mesures de conversion.
 
-> **État du projet** : version de base. Pages réalisées : accueil FR et EN. Pages restant à créer : Fonctionnalités, Compatibilité, Démarrage rapide, FAQ détaillée, Confidentialité et sécurité, pages légales. Voir `docs/INFORMATIONS_A_VALIDER.md`.
+## Développement
 
-## Démarrer
-Prérequis : [Node.js](https://nodejs.org) 18.20 ou plus récent.
-
-```bash
-npm install        # installe Astro (une seule fois)
-npm run dev        # serveur local : http://localhost:4321  (les modifications s'affichent seules)
-npm run build      # génère le site final dans le dossier dist/
-npm run preview    # teste le site généré
+```sh
+npm ci
+npm run dev
+npm run build
+npm run preview
 ```
 
-## Où est quoi
-| Dossier / fichier | Rôle |
-|---|---|
-| `src/config/site.ts` | Réglages globaux : domaine, liens App Store / Google Play, support |
-| `src/i18n/fr.ts`, `en.ts` | **Tous les textes** (titres, boutons, FAQ, SEO) |
-| `src/pages/fr/`, `src/pages/en/` | Les pages (une par langue et par route) |
-| `src/components/` | Blocs réutilisables (en-tête, boutons, cartes, accueil...) |
-| `src/layouts/BaseLayout.astro` | Squelette commun + balises SEO (canonical, hreflang, Open Graph, JSON-LD) |
-| `src/styles/variables.css` | Couleurs, police, espacements |
-| `src/styles/global.css` | Styles des composants et responsive |
-| `public/` | Fichiers servis tels quels : images, favicon, `robots.txt`, `CNAME` |
-| `docs/` | Documentation |
+Sans variable de domaine, Astro utilise `/Pynav/`. Pour les pages éditoriales, modifier les fichiers Markdown de `src/content/`. Les versions d’une page partagent la même clé de traduction. Les liens de téléchargement se configurent dans `src/config/site.ts`.
 
-## Publier (GitHub Pages + pynav.fr)
-1. Créez un dépôt GitHub et envoyez-y ce dossier (`git init`, `git add .`, `git commit`, `git push`).
-2. Dépôt > Settings > Pages > Source : **GitHub Actions**. Le fichier `.github/workflows/deploy.yml` publie à chaque envoi sur `main`.
-3. Domaine : Settings > Pages > Custom domain : `pynav.fr`. Chez votre registrar, ajoutez les enregistrements DNS indiqués par la [documentation GitHub](https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site) (le fichier `public/CNAME` est déjà prêt).
-4. Autres hébergeurs statiques possibles (Netlify, Cloudflare Pages) : commande `npm run build`, dossier de sortie `dist`.
+## Publication actuelle
+
+Le workflow GitHub Actions publie la branche `main` sur [GitHub Pages](https://danmatitia.github.io/Pynav/). La source de publication du dépôt doit être **GitHub Actions**. Le sitemap est à `/Pynav/sitemap-index.xml`. Sur ce domaine partagé, le fichier de règles de crawl reconnu par les moteurs se trouve à la racine de l’hôte. Soumettre directement le sitemap dans une propriété de préfixe d’URL si la vérification Search Console est disponible.
+
+## Domaine dédié
+
+1. Réserver le domaine et garder l’accès aux DNS. Le nom utilisé par le site sera `www`.
+2. Dans Cloudflare Pages, importer le dépôt, choisir `main`, utiliser `npm run build` et publier `dist`. Définir `PYNAV_SITE_URL=https://www.example.com` dans l’environnement de production avec le vrai domaine.
+3. Ajouter le domaine `www` dans **Custom domains**, puis suivre les instructions DNS. Configurer le 301 du domaine nu vers `www` en conservant chemin et requête.
+4. Vérifier les réponses du nouveau domaine et de l’ancienne adresse, puis suivre la checklist dans le [dossier SEO](docs/SEO_ACQUISITION.md). Cloudflare ne contrôle pas les réponses HTTP du domaine `github.io`.
+
+[Guide Astro sur Cloudflare Pages](https://developers.cloudflare.com/pages/framework-guides/deploy-an-astro-site/)
