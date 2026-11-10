@@ -1,0 +1,8 @@
+---
+// Une carte (titre + texte). Utilisée pour les usages, les fonctionnalités et les offres.
+const { title, text, class: extra = '' } = Astro.props;
+---
+<article class={`card ${extra}`}>
+  <h3>{title}</h3>
+  <p>{text}</p>
+</article>

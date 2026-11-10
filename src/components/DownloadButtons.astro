@@ -1,0 +1,13 @@
+---
+// Boutons App Store / Google Play. Les liens viennent de src/config/site.ts.
+import { site } from '../config/site';
+import { getText } from '../i18n';
+const { lang } = Astro.props;
+const t = getText(lang);
+---
+<div class="buttons">
+  <a class="btn" href={site.downloads.appStore} rel="noopener">{t.buttons.appStore}</a>
+  {site.downloads.googlePlay
+    ? <a class="btn" href={site.downloads.googlePlay} rel="noopener">{t.buttons.googlePlay}</a>
+    : <span class="btn btn--disabled" aria-disabled="true">{t.buttons.googlePlaySoon}</span>}
+</div>

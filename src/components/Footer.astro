@@ -1,0 +1,14 @@
+---
+// Pied de page : avertissement de sécurité maritime, copyright, support si renseigné.
+import { site } from '../config/site';
+import { getText } from '../i18n';
+const { lang } = Astro.props;
+const t = getText(lang);
+---
+<footer class="footer">
+  <div class="container">
+    <p>{t.footer.safety}</p>
+    {site.supportEmail && <p>{t.footer.support} : <a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a></p>}
+    <p>&copy; {new Date().getFullYear()} {site.name}. {t.footer.rights}</p>
+  </div>
+</footer>

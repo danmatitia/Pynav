@@ -1,0 +1,30 @@
+---
+// En-tête : logo, navigation (menu déroulant sans JavaScript sur mobile), langue.
+// Pour utiliser un logo image : remplacez le <a class="logo"> par <img src="/images/logo/logo.svg" alt="PyNav">.
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getText } from '../i18n';
+const { lang } = Astro.props;
+const t = getText(lang);
+const links = [
+  { href: `/${lang}/#usages`, label: t.nav.usages },
+  { href: `/${lang}/#fonctionnalites`, label: t.nav.features },
+  { href: `/${lang}/#compatibilite`, label: t.nav.compat },
+  { href: `/${lang}/#tarifs`, label: t.nav.pricing },
+  { href: `/${lang}/#faq`, label: t.nav.faq },
+];
+---
+<header class="header">
+  <div class="container header__inner">
+    <a class="logo" href={`/${lang}/`}>Py<span>Nav</span></a>
+    <nav class="nav nav--desktop" aria-label={t.nav.main}>
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </nav>
+    <div class="nav">
+      <LanguageSwitcher lang={lang} />
+      <details class="menu">
+        <summary>{t.nav.menu}</summary>
+        <nav aria-label={t.nav.main}>{links.map((l) => <a href={l.href}>{l.label}</a>)}</nav>
+      </details>
+    </div>
+  </div>
+</header>
