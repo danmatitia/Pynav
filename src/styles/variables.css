@@ -1,14 +1,14 @@
 /* VARIABLES DE DESIGN : couleurs, polices, espacements. Changez-les ici, tout le site suit. */
 :root {
-  --color-bg: #07182b;          /* bleu marine profond */
-  --color-surface: #0d2540;     /* cartes */
-  --color-surface-2: #123257;
-  --color-border: #1d4268;
-  --color-text: #e6eef7;
-  --color-muted: #a9bdd1;
-  --color-accent: #22d3ee;      /* cyan */
-  --color-accent-strong: #06b6d4;
-  --color-on-accent: #04202b;
+  --color-bg: #f9fcfd;
+  --color-surface: #eef6f8;
+  --color-surface-2: #e2f0f4;
+  --color-border: #bfd5de;
+  --color-text: #163449;
+  --color-muted: #496476;
+  --color-accent: #08738b;
+  --color-accent-strong: #065a70;
+  --color-on-accent: #ffffff;
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --radius: 1rem;
   --space-section: clamp(3.5rem, 8vw, 6.5rem);
