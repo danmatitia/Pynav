@@ -1,7 +1,9 @@
 ---
 // Contenu de l'accueil. Les phrases se modifient dans src/i18n/*.ts, pas ici.
 import { Picture } from 'astro:assets';
-import instruments from '../assets/instruments.png';
+import dashboard from '../assets/app-store/dashboard.webp';
+import autopilot from '../assets/app-store/autopilot.webp';
+import wind from '../assets/app-store/wind.webp';
 import { pathFor } from '../config/paths';
 import { sections, sectionPath } from '../config/editorial';
 import { site } from '../config/site';
@@ -34,9 +36,9 @@ const structuredData = [
         <p>{t.hero.subtitle}</p>
         <DownloadButtons lang={lang} />
       </div>
-      <Picture src={instruments} formats={['avif', 'webp']} widths={[480, 768, 1200]}
-        sizes="(max-width: 760px) 90vw, 45vw" loading="eager" fetchpriority="high"
-        alt={lang === 'fr' ? 'Illustration PyNav avec un cadran marin sur téléphone' : 'PyNav illustration with a marine instrument dial on a phone'} />
+      <Picture src={dashboard} formats={['avif', 'webp']} widths={[240, 360, 560]}
+        sizes="(max-width: 400px) 70vw, 280px" loading="eager" fetchpriority="high"
+        alt={lang === 'fr' ? 'Tableau de bord PyNav sur iPhone avec cadrans de navigation' : 'PyNav dashboard on iPhone with marine navigation gauges'} />
     </div>
   </section>
 
@@ -59,6 +61,26 @@ const structuredData = [
     <div class="container">
       <h2>{t.features.title}</h2>
       <div class="grid grid--3">{t.features.items.map((i) => <FeatureCard title={i.title} text={i.text} />)}</div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2>{lang === 'fr' ? 'PyNav en images' : 'See PyNav in action'}</h2>
+      <div class="app-screenshots">
+        <figure>
+          <Picture src={autopilot} formats={['avif', 'webp']} widths={[240, 360, 560]}
+            sizes="(max-width: 400px) 70vw, 280px"
+            alt={lang === 'fr' ? 'Écran PyNav de commande du pilote automatique pypilot' : 'PyNav screen with pypilot autopilot controls'} />
+          <figcaption>{lang === 'fr' ? 'Commande pypilot' : 'pypilot controls'}</figcaption>
+        </figure>
+        <figure>
+          <Picture src={wind} formats={['avif', 'webp']} widths={[240, 360, 560]}
+            sizes="(max-width: 400px) 70vw, 280px"
+            alt={lang === 'fr' ? 'Écran PyNav affichant les instruments de vent' : 'PyNav screen showing wind instruments'} />
+          <figcaption>{lang === 'fr' ? 'Instruments de vent' : 'Wind instruments'}</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 

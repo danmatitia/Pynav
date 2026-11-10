@@ -76,9 +76,48 @@ a { color: inherit; }
 @media (min-width: 821px) and (max-width: 1020px) { .grid--3 { grid-template-columns: repeat(2, 1fr); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
 
-.hero__grid picture img {
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.logo img {
+  flex: none;
+  border-radius: .5rem;
+}
+
+.logo .logo__name {
+  color: inherit;
+}
+
+.hero__grid picture,
+.app-screenshots picture {
+  display: block;
+  width: min(70vw, 280px);
+  margin-inline: auto;
+}
+
+.hero__grid picture img,
+.app-screenshots img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 1rem;
+}
+
+.app-screenshots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.app-screenshots figure {
+  margin: 0;
+  text-align: center;
+}
+
+.app-screenshots figcaption {
+  margin-top: .5rem;
 }

@@ -1,5 +1,7 @@
 
 ---
+import { Image } from 'astro:assets';
+import icon from '../assets/app-store/icon.png';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { getText } from '../i18n';
 
@@ -23,7 +25,8 @@ const links = [
   <div class="container header__inner">
 
     <a class="logo" href={home}>
-      Py<span>Nav</span>
+      <Image src={icon} width={36} height={36} loading="eager" alt="" />
+      <span class="logo__name">Py<span>Nav</span></span>
     </a>
 
     <nav class="nav nav--desktop" aria-label={t.nav.main}>
